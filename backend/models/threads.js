@@ -13,6 +13,10 @@ const threadschema=new schema({
         default:"New Title",
         required:true
     },
+    ispinned:{
+        type:Boolean,
+        default:false
+    },
     messages:[{
         role:{
             type:String,
