@@ -11,6 +11,12 @@ function App(){
   const [reply,setreply]=useState("");
   const [currentid,setcurrentid]=useState(crypto.randomUUID());
   const providervalue = {prompt,setprompt,reply,setreply,currentid,setcurrentid};
+  //alltreads state
+  //isnewchat state
+  //currentchat state
+
+
+  //useeffect for allthreads
   
   return (
     <div className="main">

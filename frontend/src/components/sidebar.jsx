@@ -2,6 +2,9 @@ import "../components_css/sidebar.css";
 
 
 function sidebar() {
+    //add on click functiuonality for newchat
+
+    //add on click functionality for listitem
     return (
         <div className="sidebar">
             <div className="sidebar-nav">
