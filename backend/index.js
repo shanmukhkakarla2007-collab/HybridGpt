@@ -7,8 +7,13 @@ const port=8000;
 const mongoose =require('mongoose');
 const threads=require("./models/threads.js");
 const gptmodel=require('./utils/gptmodel.js');
+const cors = require("cors");
+
 
 app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 
 async function connect(){
     await mongoose.connect(process.env.MONGODB_URL);
