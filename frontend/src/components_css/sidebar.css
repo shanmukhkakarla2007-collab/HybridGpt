@@ -110,6 +110,9 @@
     border: none;
     font-size: 0.9rem;
 }
+.siderbar-body ul li button:hover{
+    color: white;
+}
 .siderbar-body ul li:hover{
     background-color: #262626;
     color: white;

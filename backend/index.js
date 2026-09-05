@@ -96,3 +96,13 @@ app.post("/api/chat",async(req,res)=>{
     await findthread.save();
     res.json({gptmodelresponse,findthread});
 })
+app.put("/api/threads/:threadid/unpin",async(req,res)=>{
+    const {threadid}=req.params;
+    const updatedhread=await threads.findOneAndUpdate({threadid:threadid},{ispinned:false},{ new: true });
+    res.json(updatedhread);
+})
+app.put("/api/threads/:threadid/pin",async(req,res)=>{
+    const {threadid}=req.params;
+    const updatedhread=await threads.findOneAndUpdate({threadid:threadid},{ispinned:true},{ new: true });
+    res.json(updatedhread);
+})
