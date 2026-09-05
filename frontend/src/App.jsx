@@ -17,9 +17,10 @@ function App(){
   const [isnewchat,setisnewchat]=useState(true);
   //currentchat state
   const [currentchat,setcurrnetchat]=useState([]);
+  const [isloading,setisloading]=useState(false);
 
   const providervalue = {prompt,setprompt,reply,setreply,currentid,setcurrentid,
-  allthreads,setallthreads,isnewchat,setisnewchat,currentchat,setcurrnetchat};
+  allthreads,setallthreads,isnewchat,setisnewchat,currentchat,setcurrnetchat,isloading,setisloading};
 
 
   //useeffect for allthreads

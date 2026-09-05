@@ -1,5 +1,6 @@
 .chat{
-    padding: 0rem 15rem 0rem 15rem;
+    padding: 0rem 15rem 13rem 15rem;
+    color: white;
 }
 .chat-heading{
     margin-top: 20rem;
@@ -18,4 +19,10 @@
     border-radius: 50px;
     padding: 1rem 1rem;
     color: white;
+}
+.hljs{
+    border-radius: 14px !important;
+}
+pre{
+    white-space: pre-wrap;
 }
