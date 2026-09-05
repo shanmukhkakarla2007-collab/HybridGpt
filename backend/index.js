@@ -94,5 +94,5 @@ app.post("/api/chat",async(req,res)=>{
     );
     findthread.updatedat=Date.now();
     await findthread.save();
-    res.json(gptmodelresponse);
+    res.json({gptmodelresponse,findthread});
 })

@@ -1,0 +1,21 @@
+.chat{
+    padding: 0rem 15rem 0rem 15rem;
+}
+.chat-heading{
+    margin-top: 20rem;
+    text-align: center;
+    color: white;
+}
+.userdiv{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+.userresponse{
+    background-color: rgb(23, 62, 118);
+    border-radius: 50px;
+    padding: 1rem 1rem;
+    color: white;
+}

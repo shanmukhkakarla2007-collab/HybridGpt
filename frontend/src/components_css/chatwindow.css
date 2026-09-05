@@ -1,11 +1,9 @@
 
 .chatwindow{
-    width: 80%;
+    width: 79%;
     box-sizing: border-box;
     position: relative;
     overflow-y: scroll;
-    /* display: flex;
-    flex */
 }
 .chatwindow::-webkit-scrollbar {
     width: 8px;
@@ -22,13 +20,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: sticky;
-    width: 100%;
+    width: 79%;
+    position:fixed;
     bottom: 1.5rem;
+    left: 20rem;
+    right: 0;
 }
 .input input{
     width: 60%;
     padding: 0.7rem 6rem 0.7rem 4rem;
+    box-sizing: border-box;
     border-radius: 50px;
     border: none;
     background-color: #262626;

@@ -4,26 +4,48 @@ import Mycontext from "../mycontext";
 import { useContext } from "react";
 import axios from "axios";
 
-function chatwindow(){
-    const {prompt,setprompt,reply,setreply,currentid,setcurrentid}=useContext(Mycontext);
-    function modelrequest(){
+function chatwindow() {
+    const { prompt, setprompt, reply, setreply, currentid,
+        setcurrentid, isnewchat, setisnewchat, currentchat, setcurrnetchat, allthreads, setallthreads } = useContext(Mycontext);
+    function modelrequest() {
+        if (isnewchat) {
+            setisnewchat(false);
+        }
+        setcurrnetchat((prev) => {
+            return [...prev, {
+                role: "user",
+                content: prompt
+            }]
+        })
         axios.post("http://localhost:8000/api/chat",
             {
-                message:prompt,
-                threadid:currentid
+                message: prompt,
+                threadid: currentid
             }
         )
-        .then((response)=>{
-            setreply(response.data);
-            setprompt("");
-        })
+            .then((response) => {
+                setreply(response.data.gptmodelresponse);
+                setprompt("");
+                if (isnewchat) {
+                    setallthreads((prev) => {
+                        return [...prev, response.data.findthread]
+                    })
+                    // setisnewchat(false);
+                }
+                setcurrnetchat((prev) => {
+                    return [...prev, {
+                        role: "assistant",
+                        content: response.data.gptmodelresponse
+                    }]
+                })
+            })
     }
     return (
         <div className="chatwindow">
-            <Chat/>
-            <div className="input">
+            <Chat />
+            <div className="input" style={isnewchat ? { bottom: "20rem" } : { bottom: "1.5rem" }}>
                 <button className="fileuploadbtn"><i className="fa-solid fa-plus fileupload"></i></button>
-                <input onKeyDown={(e)=>{e.key==="Enter" && modelrequest()}} type="text" value={prompt} placeholder="Ask anything" onChange={(e)=>{setprompt(e.target.value)}}/>
+                <input onKeyDown={(e) => { e.key === "Enter" && modelrequest() }} type="text" value={prompt} placeholder="Ask anything" onChange={(e) => { setprompt(e.target.value) }} />
                 <div className="submit">
                     <button className="vocalbtn"><i className="fa-solid fa-microphone vocal"></i></button>
                     <button className="sendbtn" onClick={modelrequest} ><i className="fa-solid fa-paper-plane send" ></i></button>
