@@ -1,6 +1,6 @@
 
 
-const gptmodel = async (message) => {
+const gptmodel = async (messages) => {
    const options = {
       method: "POST",
       headers: {
@@ -9,10 +9,7 @@ const gptmodel = async (message) => {
       },
       body: JSON.stringify({
          model: "gpt-4o-mini",
-         messages: [{
-            role: "user",
-            content: message
-         }]
+         messages:messages
       })
    };
 

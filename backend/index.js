@@ -85,7 +85,7 @@ app.post("/api/chat",async(req,res)=>{
             },
         );
     }
-    const gptmodelresponse=await gptmodel(message);
+    const gptmodelresponse=await gptmodel(findthread.messages);
     findthread.messages.push(
         {
             role:"assistant",
