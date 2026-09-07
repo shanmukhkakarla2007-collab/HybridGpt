@@ -11,7 +11,7 @@ const gptmodel = require('./utils/gptmodel.js');
 const cors = require("cors");
 const { token } = require("./token.js");
 const cookieParser = require("cookie-parser");
-
+const {logincheck}=require("./middlewares.js");
 
 
 
@@ -148,4 +148,8 @@ app.post("/api/login",async (req,res)=>{
     }
     res.cookie("token", token(finduser._id, finduser.username));
     res.json("login successfull");
+})
+app.get('/api/logout',(req,res)=>{
+    res.clearCookie("token");
+    res.json("logout successfull");
 })
