@@ -17,13 +17,19 @@ function sidebar() {
     function oldchat(threadid) {
         setcurrentid(threadid);
         setisnewchat(false);
-        axios.get(`http://localhost:8000/api/threads/${threadid}`)
+        axios.get(`http://localhost:8000/api/threads/${threadid}`,
+            {
+                withCredentials: true
+            })
             .then((response) => {
                 setcurrnetchat(response.data);
             })
     }
     function unpin(threadid) {
-        axios.put(`http://localhost:8000/api/threads/${threadid}/unpin`)
+        axios.put(`http://localhost:8000/api/threads/${threadid}/unpin`, {},
+            {
+                withCredentials: true
+            })
             .then((response) => {
                 setallthreads((prev) =>
                     prev.map((thread) =>
@@ -35,7 +41,10 @@ function sidebar() {
             })
     }
     function pin(threadid) {
-        axios.put(`http://localhost:8000/api/threads/${threadid}/pin`)
+        axios.put(`http://localhost:8000/api/threads/${threadid}/pin`, {},
+            {
+                withCredentials: true
+            })
             .then((response) => {
                 setallthreads((prev) =>
                     prev.map((thread) =>
@@ -47,7 +56,10 @@ function sidebar() {
             })
     }
     function deletethread(threadid) {
-        axios.delete(`http://localhost:8000/api/threads/${threadid}`)
+        axios.delete(`http://localhost:8000/api/threads/${threadid}`,
+            {
+                withCredentials: true
+            })
             .then((response) => {
                 setallthreads((prev) => {
                     return prev.filter((thread) => {

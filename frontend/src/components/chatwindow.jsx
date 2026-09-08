@@ -3,11 +3,11 @@ import Chat from "./chat";
 import Mycontext from "../mycontext";
 import { useContext } from "react";
 import axios from "axios";
-import {RingLoader} from 'react-spinners';
+import { RingLoader } from 'react-spinners';
 
 function chatwindow() {
-    const { prompt, setprompt, reply, setreply, currentid,setcurrentid, isnewchat,
-    setisnewchat, currentchat, setcurrnetchat, allthreads, setallthreads,isloading,setisloading} = useContext(Mycontext);
+    const { prompt, setprompt, reply, setreply, currentid, setcurrentid, isnewchat,
+        setisnewchat, currentchat, setcurrnetchat, allthreads, setallthreads, isloading, setisloading } = useContext(Mycontext);
     function modelrequest() {
         if (isnewchat) {
             setisnewchat(false);
@@ -23,6 +23,9 @@ function chatwindow() {
             {
                 message: prompt,
                 threadid: currentid
+            },
+            {
+                withCredentials: true
             }
         )
             .then((response) => {
@@ -47,7 +50,7 @@ function chatwindow() {
         <div className="chatwindow">
             <Chat />
             {isloading && <div className="loader-div">
-                <RingLoader color="white" className="loader"/>
+                <RingLoader color="white" className="loader" />
             </div>}
             <div className="input" style={isnewchat ? { bottom: "20rem" } : { bottom: "1.5rem" }}>
                 <button className="fileuploadbtn"><i className="fa-solid fa-plus fileupload"></i></button>

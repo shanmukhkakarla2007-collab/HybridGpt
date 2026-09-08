@@ -14,6 +14,13 @@ function Auth() {
 
     async function handlesubmit(e) {
         e.preventDefault();
+        const form = e.currentTarget;
+        if (!form.checkValidity()) {
+            e.stopPropagation();
+            form.classList.add("was-validated");
+            return;
+        }
+        form.classList.add("was-validated");
 
         if (islogin) {
             try {
@@ -87,7 +94,7 @@ function Auth() {
                     }
                 </p>
 
-                <form onSubmit={handlesubmit}>
+                <form onSubmit={handlesubmit} noValidate class="needs-validation">
 
                     <div className="auth-input">
                         <label>Username</label>
@@ -97,7 +104,12 @@ function Auth() {
                             value={username}
                             onChange={(e) => setusername(e.target.value)}
                             required
+                            minLength="3"
+                            maxLength="30"
                         />
+                        <div className="invalid-feedback">
+                            Username must be at least 3 characters.
+                        </div>
                     </div>
 
                     {!islogin && (
@@ -110,6 +122,9 @@ function Auth() {
                                 onChange={(e) => setemail(e.target.value)}
                                 required
                             />
+                            <div className="invalid-feedback">
+                                Enter valid email.
+                            </div>
                         </div>
                     )}
 
@@ -121,7 +136,11 @@ function Auth() {
                             value={password}
                             onChange={(e) => setpassword(e.target.value)}
                             required
+                            minLength="6"
                         />
+                        <div className="invalid-feedback">
+                            Password must containd allest six digits.
+                        </div>
                     </div>
 
                     <button className="auth-button" type="submit">

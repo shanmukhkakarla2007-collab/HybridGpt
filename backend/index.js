@@ -11,8 +11,9 @@ const gptmodel = require('./utils/gptmodel.js');
 const cors = require("cors");
 const { token } = require("./token.js");
 const cookieParser = require("cookie-parser");
-const { logincheck } = require("./middlewares.js");
 const bcrypt = require("bcrypt");
+const Joi = require("joi");
+const {logincheck,signupvalidation,loginvalidation,chatvalidation}=require("./middlewares.js");
 
 app.use(cookieParser());
 app.use(express.json());
@@ -70,7 +71,8 @@ app.delete("/api/threads/:threadid",logincheck,async (req, res) => {
     const deletedthread = await threads.findOneAndDelete({ threadid: threadid,user:req.user.id});
     res.json(deletedthread);
 })
-app.post("/api/chat",logincheck,async (req, res) => {
+app.post("/api/chat",logincheck,chatvalidation,async (req, res) => {
+    console.log("request reached");
     const { message, threadid } = req.body;
     let findthread = await threads.findOne({ threadid: threadid,user:req.user.id});
     if (!findthread) {
@@ -107,16 +109,18 @@ app.post("/api/chat",logincheck,async (req, res) => {
     res.json({ gptmodelresponse, findthread });
 })
 app.put("/api/threads/:threadid/unpin",logincheck,async (req, res) => {
+    console.log("pin route is hitted");
     const { threadid } = req.params;
     const updatedhread = await threads.findOneAndUpdate({ threadid: threadid,user:req.user.id}, { ispinned: false }, { new: true });
     res.json(updatedhread);
 })
 app.put("/api/threads/:threadid/pin",logincheck,async (req, res) => {
+    console.log("pin route is hitted");
     const { threadid } = req.params;
-    const updatedhread = await threads.findOneAndUpdate({ threadid: threadid }, { ispinned: true }, { new: true });
+    const updatedhread = await threads.findOneAndUpdate({ threadid: threadid,user:req.user.id}, { ispinned: true }, { new: true });
     res.json(updatedhread);
 })
-app.post("/api/signup",async (req, res) => {
+app.post("/api/signup",signupvalidation,async (req, res) => {
     try {
         console.log(" SIGNUP ROUTE HIT");
         console.log("BODY:", req.body);
@@ -149,7 +153,7 @@ app.post("/api/signup",async (req, res) => {
     }
 
 });
-app.post("/api/login",async (req, res) => {
+app.post("/api/login",loginvalidation,async (req, res) => {
     const { username, password } = req.body;
     const finduser = await users.findOne({ username: username });
     if (!finduser) {

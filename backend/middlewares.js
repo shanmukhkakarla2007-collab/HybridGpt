@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
-function logincheck(req,res,next){
+const { signupSchema,loginSchema,chatSchema } = require("./joi");
+
+
+function logincheck(req, res, next) {
     const tokenvalue = req.cookies.token;
     if (!tokenvalue) {
         return res.status(401).json("please login first");
@@ -15,5 +18,28 @@ function logincheck(req,res,next){
         return res.status(401).json("invalid or expired token");
     }
 }
+function signupvalidation(req, res, next) {
+    const { error } = signupSchema.validate(req.body);
 
-module.exports={logincheck}
+    if (error) {
+        return res.status(400).json(error.details[0].message);
+    }
+    next();
+}
+function loginvalidation(req, res, next) {
+    const { error } = loginSchema.validate(req.body);
+
+    if (error) {
+        return res.status(400).json(error.details[0].message);
+    }
+    next();
+}
+function chatvalidation(req, res, next) {
+     const { error } = chatSchema.validate(req.body);
+
+    if (error) {
+        return res.status(400).json(error.details[0].message);
+    }
+    next();
+}
+module.exports = { logincheck, signupvalidation, loginvalidation, chatvalidation }
