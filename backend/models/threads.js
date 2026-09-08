@@ -3,10 +3,10 @@ const mongoose=require("mongoose");
 const schema=mongoose.Schema;
 
 const threadschema=new schema({
-    threadid:{
-        type:String,
-        required:true,
-        unique:true
+    threadid: {
+        type: String,
+        required: [true, "Thread ID is required"],
+        unique: true,
     },
     title:{
         type:String,
@@ -43,7 +43,7 @@ const threadschema=new schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
-        required: true
+        required: [true, "User is required"]
     },
 })
 

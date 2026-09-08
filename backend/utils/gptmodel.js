@@ -1,4 +1,4 @@
-
+const expresserror=require("../expresserror");
 
 const gptmodel = async (messages) => {
    const options = {
@@ -18,7 +18,7 @@ const gptmodel = async (messages) => {
       const data = await response.json();
       return data.choices[0].message.content;
    } catch (err) {
-      console.log(err);
+      throw err;
    }
 }
 
