@@ -11,16 +11,15 @@ const gptmodel = require('./utils/gptmodel.js');
 const cors = require("cors");
 const { token } = require("./token.js");
 const cookieParser = require("cookie-parser");
-const {logincheck}=require("./middlewares.js");
+const { logincheck } = require("./middlewares.js");
+const bcrypt = require("bcrypt");
 
-
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }));
-app.use(cookieParser());
 
 
 async function connect() {
@@ -57,23 +56,23 @@ app.get("/api/testdb", async (req, res) => {
     const response = await thread.save();
     res.json(response);
 })
-app.get("/api/threads", async (req, res) => {
-    const allthreads = await threads.find({}).sort({ updatedat: -1 });
+app.get("/api/threads",logincheck,async (req, res) => {
+    const allthreads = await threads.find({user:req.user.id}).sort({ updatedat: -1 });
     res.json(allthreads);
 })
-app.get("/api/threads/:threadid", async (req, res) => {
+app.get("/api/threads/:threadid",logincheck,async (req, res) => {
     const { threadid } = req.params;
-    const thread = await threads.findOne({ threadid });
+    const thread = await threads.findOne({ threadid,user:req.user.id});
     res.json(thread.messages);
 })
-app.delete("/api/threads/:threadid", async (req, res) => {
+app.delete("/api/threads/:threadid",logincheck,async (req, res) => {
     const { threadid } = req.params;
-    const deletedthread = await threads.findOneAndDelete({ threadid: threadid });
+    const deletedthread = await threads.findOneAndDelete({ threadid: threadid,user:req.user.id});
     res.json(deletedthread);
 })
-app.post("/api/chat", async (req, res) => {
+app.post("/api/chat",logincheck,async (req, res) => {
     const { message, threadid } = req.body;
-    let findthread = await threads.findOne({ threadid: threadid });
+    let findthread = await threads.findOne({ threadid: threadid,user:req.user.id});
     if (!findthread) {
         const thread = new threads({
             threadid: threadid,
@@ -83,7 +82,8 @@ app.post("/api/chat", async (req, res) => {
                     role: "user",
                     content: message
                 }
-            ]
+            ],
+            user:req.user.id
         });
         findthread = thread;
     }
@@ -106,50 +106,69 @@ app.post("/api/chat", async (req, res) => {
     await findthread.save();
     res.json({ gptmodelresponse, findthread });
 })
-app.put("/api/threads/:threadid/unpin", async (req, res) => {
+app.put("/api/threads/:threadid/unpin",logincheck,async (req, res) => {
     const { threadid } = req.params;
-    const updatedhread = await threads.findOneAndUpdate({ threadid: threadid }, { ispinned: false }, { new: true });
+    const updatedhread = await threads.findOneAndUpdate({ threadid: threadid,user:req.user.id}, { ispinned: false }, { new: true });
     res.json(updatedhread);
 })
-app.put("/api/threads/:threadid/pin", async (req, res) => {
+app.put("/api/threads/:threadid/pin",logincheck,async (req, res) => {
     const { threadid } = req.params;
     const updatedhread = await threads.findOneAndUpdate({ threadid: threadid }, { ispinned: true }, { new: true });
     res.json(updatedhread);
 })
-app.post("/api/signup", async (req, res) => {
-    const { username, email, password } = req.body;
-    const finduser = await users.findOne({ $or: [{ username: username }, { email: email }] });
-    if (finduser) {
-        console.log("user already exists");
-        return res.json("user already exists");
+app.post("/api/signup",async (req, res) => {
+    try {
+        console.log(" SIGNUP ROUTE HIT");
+        console.log("BODY:", req.body);
+        const { username, email, password } = req.body;
+        const finduser = await users.findOne({ $or: [{ username: username }, { email: email }] });
+        if (finduser) {
+            console.log("user already exists");
+            return res.json("user already exists");
+        }
+        console.log("err1");
+        const hashedpassword = await bcrypt.hash(
+            password,
+            10
+        );
+        console.log("err2");
+        const newuser = new users({
+            username: username,
+            email: email,
+            password: hashedpassword
+        });
+        console.log("err3");
+        await newuser.save();
+        console.log("err4");
+        res.cookie("token", token(newuser._id, newuser.username));
+        res.json("signup successfull");
     }
-    const hashedpassword = await bcrypt.hash(
-        password,
-        Number(process.env.HASHCODE)
-    );
-    const newuser = new users({
-        username: username,
-        email: email,
-        password: hashedpassword
-    });
-    await newuser.save();
-    res.cookie("token", token(newuser._id, newuser.username));
-    res.json("signup successfull");
+    catch(error){
+        console.log(error);
+        res.json(error);
+    }
+
 });
-app.post("/api/login",async (req,res)=>{
-    const {username,password} = req.body;
-    const finduser=await users.findOne({username:username});
-    if(!finduser){
+app.post("/api/login",async (req, res) => {
+    const { username, password } = req.body;
+    const finduser = await users.findOne({ username: username });
+    if (!finduser) {
         return res.json("you should signup first");
     }
-    const comparepassword=await bcrypt.compare(password,finduser.password);
-    if(!comparepassword){
+    const comparepassword = await bcrypt.compare(password, finduser.password);
+    if (!comparepassword) {
         return res.json("invalid username or password");
     }
     res.cookie("token", token(finduser._id, finduser.username));
     res.json("login successfull");
 })
-app.get('/api/logout',(req,res)=>{
+app.get('/api/logout',logincheck,(req, res) => {
     res.clearCookie("token");
     res.json("logout successfull");
+})
+app.get("/api/logincheck", logincheck, (req, res) => {
+    res.json({
+        user: req.user,
+        islogged: true
+    })
 })

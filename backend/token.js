@@ -4,7 +4,7 @@ require('dotenv').config();
 function token(id,name) {
     const token = jwt.sign(
         {
-            userId: id,
+            id: id,
             username: name
         },
         process.env.JWT_SECRET,

@@ -1,6 +1,7 @@
 import './App.css'
 import Sidebar from "./components/sidebar";
 import Chatwindow from "./components/chatwindow";
+import Auth from "./components/auth";
 import Mycontext from "./mycontext";
 import { useState ,useEffect} from 'react';
 import axios from "axios";
@@ -18,24 +19,43 @@ function App(){
   //currentchat state
   const [currentchat,setcurrnetchat]=useState([]);
   const [isloading,setisloading]=useState(false);
+  
 
-  const providervalue = {prompt,setprompt,reply,setreply,currentid,setcurrentid,
-  allthreads,setallthreads,isnewchat,setisnewchat,currentchat,setcurrnetchat,isloading,setisloading};
+  // isloggedin state
+  const [isloggedin,setisloggedin]=useState(false);
+
+  const providervalue = {prompt,setprompt,reply,setreply,currentid,setcurrentid,isloading,setisloading,
+  allthreads,setallthreads,isnewchat,setisnewchat,currentchat,setcurrnetchat,isloggedin,setisloggedin};
 
 
   //useeffect for allthreads
   useEffect(()=>{
-    axios.get("http://localhost:8000/api/threads")
+    if (!isloggedin) return;
+    axios.get("http://localhost:8000/api/threads",{withCredentials: true})
          .then((response)=>{
             setallthreads(response.data);
          })
-  },[]);
+  },[isloggedin]);
 
+  useEffect(()=>{
+    axios.get("http://localhost:8000/api/logincheck",{withCredentials: true})
+         .then((response)=>{
+            setisloggedin(true)
+         })
+         .catch((err)=>{
+           setisloggedin(false);
+         })
+  },[]);
   return (
     <div className="main">
       <Mycontext.Provider value={providervalue}>
-        <Sidebar />
-        <Chatwindow />
+        {!isloggedin?(<Auth/>):(
+          <>
+            <Sidebar />
+            <Chatwindow />
+          </>
+        )
+        }
       </Mycontext.Provider>
     </div>
   )

@@ -1,4 +1,4 @@
-
+const jwt = require("jsonwebtoken");
 function logincheck(req,res,next){
     const tokenvalue = req.cookies.token;
     if (!tokenvalue) {

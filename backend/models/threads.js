@@ -39,7 +39,12 @@ const threadschema=new schema({
     updatedat:{
         type:Date,
         default:Date.now
-    }
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        required: true
+    },
 })
 
 const threads=mongoose.model("thread",threadschema);
