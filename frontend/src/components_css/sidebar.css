@@ -10,6 +10,10 @@
     padding: 0.4rem 0rem;
     border-bottom:1px solid #3333333e ;
 }
+.sidebar-fotter{
+    border-top:1px solid #3333333e ;
+    padding: 0.4rem 0.3rem;
+}
 .nav-logos{
     display: flex;
     justify-content: space-between;
@@ -54,6 +58,7 @@
     padding: 1rem 0rem;
     color: white;
     overflow:auto;
+    height: 78%;
 
 }
 .siderbar-body::-webkit-scrollbar {

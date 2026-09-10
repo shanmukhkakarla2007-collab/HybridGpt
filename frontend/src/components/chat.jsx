@@ -4,6 +4,7 @@ import "../components_css/chat.css";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
+import { toast } from "react-toastify";
 
 function chat() {
     const { isnewchat, setisnewchat, currentchat, setcurrnetchat, currentid, setcurrentid } = useContext(Mycontext);

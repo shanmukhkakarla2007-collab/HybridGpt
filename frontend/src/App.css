@@ -8,3 +8,9 @@
     display: flex;
     background-color: black;
 }
+.custom-toast {
+    background: #212121;
+    color: white;
+    border-radius: 10px;
+    font-size: 14px;
+}

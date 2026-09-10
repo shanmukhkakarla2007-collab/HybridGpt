@@ -2,18 +2,19 @@ import { useContext } from "react";
 import "../components_css/sidebar.css";
 import Mycontext from "../mycontext";
 import axios from "axios";
+import { toast } from "react-toastify";
+import Profile from "./profile";
 
 function sidebar() {
 
     const { allthreads, setallthreads, isnewchat
         , setisnewchat, currentchat, setcurrnetchat, currentid, setcurrentid } = useContext(Mycontext);
-    //add on click functiuonality for newchat
+
     function newchat() {
         setcurrentid(crypto.randomUUID());
         setisnewchat(true);
         setcurrnetchat([]);
     }
-    //add on click functionality for listitem
     function oldchat(threadid) {
         setcurrentid(threadid);
         setisnewchat(false);
@@ -23,6 +24,9 @@ function sidebar() {
             })
             .then((response) => {
                 setcurrnetchat(response.data);
+            })
+            .catch((err)=>{
+                toast.error(err.response?.data || "Something went wrong");
             })
     }
     function unpin(threadid) {
@@ -39,6 +43,9 @@ function sidebar() {
                     )
                 );
             })
+            .catch((err)=>{
+                toast.error(err.response?.data || "Something went wrong");
+            })
     }
     function pin(threadid) {
         axios.put(`http://localhost:8000/api/threads/${threadid}/pin`, {},
@@ -53,6 +60,9 @@ function sidebar() {
                             : thread
                     )
                 );
+            })
+            .catch((err)=>{
+                toast.error(err.response?.data || "Something went wrong");
             })
     }
     function deletethread(threadid) {
@@ -69,8 +79,12 @@ function sidebar() {
                 if (currentid == threadid) {
                     newchat();
                 }
+                toast.success("Chat was deleted successfully");
+            }).catch((err)=>{
+                toast.error(err.response?.data || "Something went wrong");
             })
     }
+
     return (
         <div className="sidebar">
             <div className="sidebar-nav">
@@ -121,7 +135,7 @@ function sidebar() {
                 </ul>
             </div>
             <div className="sidebar-fotter">
-
+                <Profile/>
             </div>
         </div>
     )

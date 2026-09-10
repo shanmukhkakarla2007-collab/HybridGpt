@@ -4,10 +4,13 @@ import Mycontext from "../mycontext";
 import { useContext } from "react";
 import axios from "axios";
 import { RingLoader } from 'react-spinners';
+import { toast } from "react-toastify";
 
 function chatwindow() {
+
     const { prompt, setprompt, reply, setreply, currentid, setcurrentid, isnewchat,
         setisnewchat, currentchat, setcurrnetchat, allthreads, setallthreads, isloading, setisloading } = useContext(Mycontext);
+
     function modelrequest() {
         if (isnewchat) {
             setisnewchat(false);
@@ -28,23 +31,26 @@ function chatwindow() {
                 withCredentials: true
             }
         )
-            .then((response) => {
-                setreply(response.data.gptmodelresponse);
-                setprompt("");
-                setisloading(false);
-                if (isnewchat) {
-                    setallthreads((prev) => {
-                        return [...prev, response.data.findthread]
-                    })
-                    // setisnewchat(false);
-                }
-                setcurrnetchat((prev) => {
-                    return [...prev, {
-                        role: "assistant",
-                        content: response.data.gptmodelresponse
-                    }]
+        .then((response) => {
+            setreply(response.data.gptmodelresponse);
+            setprompt("");
+            setisloading(false);
+            if (isnewchat) {
+                setallthreads((prev) => {
+                    return [...prev, response.data.findthread]
                 })
+            }
+            setcurrnetchat((prev) => {
+                return [...prev, {
+                    role: "assistant",
+                    content: response.data.gptmodelresponse
+                }]
             })
+        })
+        .catch((err)=>{
+            setisloading(false);
+            toast.error(err.response?.data || "Something went wrong");
+        })
     }
     return (
         <div className="chatwindow">
