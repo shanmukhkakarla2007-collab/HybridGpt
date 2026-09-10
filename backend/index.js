@@ -156,7 +156,11 @@ app.post("/api/login", loginvalidation, wrapasync(async (req, res, next) => {
     res.json("login successfull");
 }))
 app.get('/api/logout', logincheck, (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    });
     res.json("logout successfull");
 })
 app.get("/api/logincheck", logincheck, (req, res) => {
