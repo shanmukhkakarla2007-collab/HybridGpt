@@ -30,11 +30,14 @@ function Profile() {
                 onClick={() => setShowMenu(!showMenu)}
             >
                 <div className="profile-avatar">
-                    {user.username.substring(0, 2).toUpperCase()}
+                    {user?.username
+            ? user.username.substring(0, 2).toUpperCase()
+            : "PK"
+        }
                 </div>
 
                 <div className="profile-name">
-                    {user.username}
+                    {user?.username || "User"}
                 </div>
             </div>
 
