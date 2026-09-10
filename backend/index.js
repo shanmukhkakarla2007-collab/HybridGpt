@@ -50,7 +50,7 @@ app.get("/api/threads/:threadid", logincheck, wrapasync(async (req, res, next) =
     const { threadid } = req.params;
     const thread = await threads.findOne({ threadid, user: req.user.id });
     if (!thread) {
-        return next(new ExpressError("Thread not found", 404));
+        return next(new expressError("Thread not found", 404));
     }
     res.json(thread.messages);
 }))
@@ -58,7 +58,7 @@ app.delete("/api/threads/:threadid", logincheck, wrapasync(async (req, res, next
     const { threadid } = req.params;
     const deletedthread = await threads.findOneAndDelete({ threadid: threadid, user: req.user.id });
     if (!deletedthread) {
-        return next(new ExpressError("Thread not found", 404));
+        return next(new expressError("Thread not found", 404));
     }
     res.json(deletedthread);
 }))
@@ -102,7 +102,7 @@ app.put("/api/threads/:threadid/unpin", logincheck, wrapasync(async (req, res, n
     const { threadid } = req.params;
     const updatedhread = await threads.findOneAndUpdate({ threadid: threadid, user: req.user.id }, { ispinned: false }, { new: true });
     if (!updatedhread) {
-        return next(new ExpressError("Thread not found", 404));
+        return next(new expressError("Thread not found", 404));
     }
     res.json(updatedhread);
 }))
@@ -111,7 +111,7 @@ app.put("/api/threads/:threadid/pin", logincheck, async (req, res, next) => {
     const { threadid } = req.params;
     const updatedhread = await threads.findOneAndUpdate({ threadid: threadid, user: req.user.id }, { ispinned: true }, { new: true });
     if (!updatedhread) {
-        return next(new ExpressError("Thread not found", 404));
+        return next(new expressError("Thread not found", 404));
     }
     res.json(updatedhread);
 })
