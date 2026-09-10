@@ -22,7 +22,7 @@ function chatwindow() {
             }]
         })
         setisloading(true);
-        axios.post("http://localhost:8000/api/chat",
+        axios.post("https://backend-u54n.onrender.com/api/chat",
             {
                 message: prompt,
                 threadid: currentid

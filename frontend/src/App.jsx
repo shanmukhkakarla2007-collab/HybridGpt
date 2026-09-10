@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     if (!isloggedin) return;
-    axios.get("http://localhost:8000/api/threads", { withCredentials: true })
+    axios.get("https://backend-u54n.onrender.com/api/threads", { withCredentials: true })
       .then((response) => {
         setallthreads(response.data);
       })
@@ -38,7 +38,7 @@ function App() {
   }, [isloggedin]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/logincheck", { withCredentials: true })
+    axios.get("https://backend-u54n.onrender.com/api/logincheck", { withCredentials: true })
       .then((response) => {
         setisloggedin(true);
         setuser(response.data.user);

@@ -18,7 +18,7 @@ function sidebar() {
     function oldchat(threadid) {
         setcurrentid(threadid);
         setisnewchat(false);
-        axios.get(`http://localhost:8000/api/threads/${threadid}`,
+        axios.get(`https://backend-u54n.onrender.com/api/threads/${threadid}`,
             {
                 withCredentials: true
             })
@@ -30,7 +30,7 @@ function sidebar() {
             })
     }
     function unpin(threadid) {
-        axios.put(`http://localhost:8000/api/threads/${threadid}/unpin`, {},
+        axios.put(`https://backend-u54n.onrender.com/api/threads/${threadid}/unpin`, {},
             {
                 withCredentials: true
             })
@@ -48,7 +48,7 @@ function sidebar() {
             })
     }
     function pin(threadid) {
-        axios.put(`http://localhost:8000/api/threads/${threadid}/pin`, {},
+        axios.put(`https://backend-u54n.onrender.com/api/threads/${threadid}/pin`, {},
             {
                 withCredentials: true
             })
@@ -66,7 +66,7 @@ function sidebar() {
             })
     }
     function deletethread(threadid) {
-        axios.delete(`http://localhost:8000/api/threads/${threadid}`,
+        axios.delete(`https://backend-u54n.onrender.com/api/threads/${threadid}`,
             {
                 withCredentials: true
             })

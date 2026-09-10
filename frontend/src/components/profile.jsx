@@ -12,7 +12,7 @@ function Profile() {
     async function handleLogout() {
 
         await axios.get(
-            "http://localhost:8000/api/logout",
+            "https://backend-u54n.onrender.com/api/logout",
             { withCredentials: true }
         )
         .then((response) => {
