@@ -44,7 +44,7 @@ app.listen(port, () => {
 
 app.get("/api/threads", logincheck, wrapasync(async (req, res) => {
     const allthreads = await threads.find({ user: req.user.id }).sort({ updatedat: -1 });
-    res.json(allthreads);
+    res.json({allthreads,user:req.user});
 }))
 app.get("/api/threads/:threadid", logincheck, wrapasync(async (req, res, next) => {
     const { threadid } = req.params;

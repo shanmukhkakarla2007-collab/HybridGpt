@@ -30,7 +30,8 @@ function App() {
     if (!isloggedin) return;
     axios.get("https://backend-u54n.onrender.com/api/threads", { withCredentials: true })
       .then((response) => {
-        setallthreads(response.data);
+        setallthreads(response.data.allthreads);
+        setuser(response.data.user);
       })
       .catch((err) => {
         toast.error(err.response?.data || "Something went wrong");
