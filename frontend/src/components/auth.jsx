@@ -25,7 +25,7 @@ function Auth() {
 
         if (islogin) {
             await axios.post(
-                "http://localhost:8000/api/login",
+                "https://backend-u54n.onrender.com/api/login",
                 {
                     username,
                     password
@@ -46,7 +46,7 @@ function Auth() {
         } 
         else {
             await axios.post(
-                "http://localhost:8000/api/signup",
+                "https://backend-u54n.onrender.com/api/signup",
                 {
                     username,
                     email,
