@@ -16,6 +16,10 @@ const Joi = require("joi");
 const { logincheck, signupvalidation, loginvalidation, chatvalidation } = require("./middlewares.js");
 const expresserror = require("./expresserror.js");
 const wrapasync = require("./wrapasync.js");
+const multer = require("multer");
+const upload = multer({
+    storage: multer.memoryStorage()
+});
 
 
 app.use(cookieParser());
@@ -44,7 +48,7 @@ app.listen(port, () => {
 
 app.get("/api/threads", logincheck, wrapasync(async (req, res) => {
     const allthreads = await threads.find({ user: req.user.id }).sort({ updatedat: -1 });
-    res.json({allthreads,user:req.user});
+    res.json({ allthreads, user: req.user });
 }))
 app.get("/api/threads/:threadid", logincheck, wrapasync(async (req, res, next) => {
     const { threadid } = req.params;
@@ -169,6 +173,45 @@ app.get("/api/logincheck", logincheck, (req, res) => {
         islogged: true
     })
 })
+app.post("/api/transcribe", logincheck, upload.single("audio"), wrapasync(async (req, res, next) => {
+    if (!req.file) {
+        return next(new expresserror("Audio file is required", 400));
+    }
+
+    const formData = new FormData();
+    formData.append(
+        "file",
+        new Blob([req.file.buffer], {
+            type: req.file.mimetype
+        }),
+        "audio.webm"
+    );
+    formData.append(
+        "model",
+        "gpt-4o-mini-transcribe"
+    );
+    const options = {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+        },
+        body: formData
+    }
+
+    const response = await fetch("https://api.openai.com/v1/audio/transcriptions", options);
+    const data = await response.json();
+    if (!response.ok) {
+        return next(
+            new expresserror(
+                data.error?.message ||
+                "Transcription failed",
+                response.status
+            )
+        );
+    }
+    res.json({ text: data.text });
+
+}))
 
 
 app.use((req, res, next) => {

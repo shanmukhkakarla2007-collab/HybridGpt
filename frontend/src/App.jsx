@@ -20,9 +20,10 @@ function App() {
   const [isloading, setisloading] = useState(false);
   const [isloggedin, setisloggedin] = useState(false);
   const [user,setuser]=useState({});
+  const [isrecording,setisrecording]=useState(false);
 
   const providervalue = {
-    prompt, setprompt, reply, setreply, currentid, setcurrentid, isloading, setisloading,user,setuser,
+    prompt, setprompt, reply, setreply, currentid, setcurrentid, isloading, setisloading,user,setuser,isrecording,setisrecording,
     allthreads, setallthreads, isnewchat, setisnewchat, currentchat, setcurrnetchat, isloggedin, setisloggedin
   };
 
