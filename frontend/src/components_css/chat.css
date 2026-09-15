@@ -34,6 +34,9 @@
     font-size: 0.9rem;
     visibility: hidden;
 }
+.editchat button{
+    background-color: #262626;
+}
 .hljs{
     border-radius: 14px !important;
 }
