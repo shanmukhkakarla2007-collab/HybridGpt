@@ -35,7 +35,8 @@
     visibility: hidden;
 }
 .editchat button{
-    background-color: #262626;
+    background-color: black;
+    border:none
 }
 .hljs{
     border-radius: 14px !important;
