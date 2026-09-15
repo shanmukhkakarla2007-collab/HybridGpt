@@ -8,11 +8,15 @@
     color: white;
 }
 .userdiv{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-end;
     margin-top: 3rem;
+    flex-direction: column;
     margin-bottom: 1rem;
+    display: flex;
+}
+.userdiv:hover .editchat{
+   visibility: visible;
 }
 .userresponse{
     background-color: rgb(23, 62, 118);
@@ -26,6 +30,9 @@
     align-items: center;
     color: white;
     margin-bottom: 2rem;
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    visibility: none;
 }
 .hljs{
     border-radius: 14px !important;
