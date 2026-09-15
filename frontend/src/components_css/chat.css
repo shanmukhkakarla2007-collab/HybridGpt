@@ -36,7 +36,8 @@
 }
 .editchat button{
     background-color: black;
-    border:none
+    border:none;
+    color:white;
 }
 .hljs{
     border-radius: 14px !important;
