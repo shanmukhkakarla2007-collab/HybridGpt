@@ -30,6 +30,7 @@ function chat() {
                     return (
                         <div className={chat.role == "user" ? "userdiv" : "gptduiv"} key={idx}>
                             {chat.role == "user" ? <span className="userresponse">{chat.content}</span> : <ReactMarkdown rehypePlugins={rehypeHighlight}>{chat.content}</ReactMarkdown>}
+                            {chat.role == "user" && <div className="editchat"><i class="fa-solid fa-pen"></i></div>}
                         </div>
                     );
                 })

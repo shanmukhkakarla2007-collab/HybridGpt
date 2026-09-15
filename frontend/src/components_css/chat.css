@@ -12,13 +12,20 @@
     justify-content: flex-end;
     align-items: center;
     margin-top: 3rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .userresponse{
     background-color: rgb(23, 62, 118);
     border-radius: 50px;
     padding: 1rem 1rem;
     color: white;
+}
+.editchat{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+    margin-bottom: 2rem;
 }
 .hljs{
     border-radius: 14px !important;
