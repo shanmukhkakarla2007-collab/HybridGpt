@@ -14,7 +14,7 @@ function chatwindow() {
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
 
-    function modelrequest() {
+    function modelrequest(prompt) {
         if (isnewchat) {
             setisnewchat(false);
         }
@@ -120,7 +120,7 @@ function chatwindow() {
 
     return (
         <div className="chatwindow">
-            <Chat />
+            <Chat modelrequest={modelrequest}/>
             {isloading && <div className="loader-div">
                 <RingLoader color="white" className="loader" />
             </div>}
@@ -128,7 +128,7 @@ function chatwindow() {
                 <button className="fileuploadbtn"><i className="fa-solid fa-plus fileupload"></i></button>
                 <input onKeyDown={(e) => {
                     if (e.key === "Enter" && !isrecording) {
-                        modelrequest();
+                        modelrequest(prompt);
                     }
                 }} type="text" value={prompt} placeholder="Ask anything" onChange={(e) => { setprompt(e.target.value) }} />
                 <div className="submit">
@@ -142,7 +142,7 @@ function chatwindow() {
                             }
                         }
                     }> {!isrecording ? <i className="fa-solid fa-microphone vocal"></i> : <i class="fa-solid fa-record-vinyl"></i>}</button>
-                    <button className="sendbtn" onClick={modelrequest} ><i className="fa-solid fa-paper-plane send" ></i></button>
+                    <button className="sendbtn" onClick={()=>modelrequest(prompt)} ><i className="fa-solid fa-paper-plane send" ></i></button>
                 </div>
             </div>
         </div>

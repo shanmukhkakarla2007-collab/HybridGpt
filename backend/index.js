@@ -212,6 +212,27 @@ app.post("/api/transcribe", logincheck, upload.single("audio"), wrapasync(async 
     res.json({ text: data.text });
 
 }))
+app.put("/api/threads/:threadid/edit", logincheck, wrapasync(async (req, res, next) => {
+    const { index } = req.body;
+    const { threadid } = req.params;
+    if (index === undefined || index === null) {
+        return next(
+            new expresserror("Index is required", 400)
+        );
+    }
+    const thread = await threads.findOne({ id: threadid, user: req.user.id });
+    if (!thread) {
+        return next(new expresserror("Thread not found", 404));
+    }
+    thread.messages = thread.messages.filter((chat, idx) => {
+        return idx < index;
+    });
+    await thread.save();
+    res.json(thread);
+}))
+
+
+
 
 
 app.use((req, res, next) => {

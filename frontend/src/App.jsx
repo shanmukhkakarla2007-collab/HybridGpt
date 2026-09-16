@@ -21,10 +21,13 @@ function App() {
   const [isloggedin, setisloggedin] = useState(false);
   const [user,setuser]=useState({});
   const [isrecording,setisrecording]=useState(false);
+  const [editidx,seteditidx]=useState(null);
+  const [editmsg,seteditmsg]=useState("");
 
   const providervalue = {
     prompt, setprompt, reply, setreply, currentid, setcurrentid, isloading, setisloading,user,setuser,isrecording,setisrecording,
-    allthreads, setallthreads, isnewchat, setisnewchat, currentchat, setcurrnetchat, isloggedin, setisloggedin
+    allthreads, setallthreads, isnewchat, setisnewchat, currentchat, setcurrnetchat, isloggedin, setisloggedin,
+    editidx,seteditidx,editmsg,seteditmsg
   };
 
   useEffect(() => {
