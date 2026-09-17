@@ -39,6 +39,7 @@ function chat({modelrequest}) {
         settextareavalue("");
     }
     function sendedit(){
+        console.log("currentid:", currentid);
         axios.put(`https://backend-u54n.onrender.com/api/threads/${currentid}/edit`,{index:editidx},{ withCredentials: true })
             .then((response)=>{
                 setcurrnetchat((prev)=>{

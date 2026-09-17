@@ -215,10 +215,11 @@ app.post("/api/transcribe", logincheck, upload.single("audio"), wrapasync(async 
 app.put("/api/threads/:threadid/edit", logincheck, wrapasync(async (req, res, next) => {
     const { index } = req.body;
     const { threadid } = req.params;
+    console.log(threadid);
     if (index === undefined || index === null) {
         return next(new expresserror("Index is required", 400));
     }
-    const thread = await threads.findOne({ id: threadid, user: req.user.id });
+    const thread = await threads.findOne({ threadid: threadid, user: req.user.id });
     if (!thread) {
         return next(new expresserror("Thread not found", 404));
     }
