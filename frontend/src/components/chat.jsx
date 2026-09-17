@@ -67,7 +67,13 @@ function chat({modelrequest}) {
                         return (
                             idx===editidx
                             ?
-                            <textarea key={idx} value={textareavalue} onChange={(e)=>{settextareavalue(e.target.value);seteditmsg(e.target.value);}}autoFocus/>
+                            <div className="editcontainer">
+                                <textarea key={idx} value={textareavalue} onChange={(e)=>{settextareavalue(e.target.value);seteditmsg(e.target.value);}}autoFocus/>
+                                <div className="editbuttons">
+                                    <button className="cancel " onClick={canceledit}>cancel</button>
+                                    <button className="send " onClick={sendedit}>send</button>
+                                </div>
+                            </div>
                             :
                             <div className="userdiv" key={idx}>
                                 <span className="userresponse">{chat.content}</span>

@@ -61,3 +61,34 @@ textarea:focus{
     outline: none;
     border: none;
 }
+.editcontainer{
+    position: relative;
+    
+}
+.editbuttons{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    bottom: 4rem;
+}
+.editbuttons .cancel{
+    margin-right: 1rem;
+    border:none;
+    background-color: rgba(0, 0, 0, 0.656);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    border: 0.2px solid rgba(154, 151, 151, 0.407) ;
+}
+.editbuttons .send{
+    margin-right: 1rem;
+    border:none;
+    background-color: white;
+    color: black;
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    font-weight: 500;
+}

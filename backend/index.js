@@ -216,9 +216,7 @@ app.put("/api/threads/:threadid/edit", logincheck, wrapasync(async (req, res, ne
     const { index } = req.body;
     const { threadid } = req.params;
     if (index === undefined || index === null) {
-        return next(
-            new expresserror("Index is required", 400)
-        );
+        return next(new expresserror("Index is required", 400));
     }
     const thread = await threads.findOne({ id: threadid, user: req.user.id });
     if (!thread) {
